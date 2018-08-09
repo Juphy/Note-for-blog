@@ -1,5 +1,5 @@
-body{
-  background:url(https://source.unsplash.com/random/1600x900);
+#main{
+  background:url(https://api.yingjoy.cn/pic/?t=random&w=1920);
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -9,8 +9,6 @@ body{
 }
 
 .main-inner { 
-    margin-top: 60px;
-    padding: 60px 60px 60px 60px;
     background: #fff;
     opacity: 0.9;
     min-height: 500px;
@@ -35,9 +33,29 @@ code {
 }
 
 .post {
-  margin-top: 60px;
+  margin: 0 25px;
   margin-bottom: 60px;
   padding: 25px;
   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+}
+
+.post-expand{
+  padding-top: 0;
+}
+.post-footer{
+  display: none;
+}
+
+#header{
+  position: relative;
+}
+
+#canvas{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
 }

@@ -34,6 +34,7 @@
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <canvas id="canvas"></canvas>
       <div class="header-inner">{% include '_partials/header/index.swig' %}</div>
     </header>
 
@@ -118,4 +119,56 @@
   {% include '_third-party/bookmark.swig' %}
   {% include '_third-party/copy-code.swig' %}
 </body>
+<script>
+    var ballColors = [
+        '0, 153, 204, ',
+        '153, 51, 204, ',
+        '153, 204, 0, ',
+        '255, 187, 51, ',
+        '255, 136, 0, ',
+        '255, 68, 68, '
+    ];
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        init(context);
+        window.onresize = function () {
+            init(context);
+        };
+        canvas.onclick = function () {
+            init(context);
+        }
+    };
+    function init (context) {
+        context.globalAlpha = 0;
+        var screen = screenSize();
+        canvas.width = screen.width;
+        canvas.height = screen.height;
+        var num = parseInt(screen.width * screen.height / 100000);
+        if (num < 24) num = 24;
+        balls = [];
+        for (var i = 0; i < num; i++) {
+            var opacity = 0.06 + Math.random() * 0.16;
+            var color = 'rgba(' + ballColors[parseInt(Math.random() * 7)] + opacity + ')';
+            var ball = {
+                x: parseInt(200 * Math.random() * screen.width / 200),
+                y: parseInt(200 * Math.random() * screen.height / 200),
+                r: 20 + parseInt(Math.random() * (10 * num)),
+                c: color
+            };
+            balls.push(ball);
+            paintBall(context, ball.x, ball.y, ball.r, ball.c);
+        }
+    }
+    function paintBall(context, x, y, r, c) {
+        context.fillStyle = c;
+        context.beginPath();
+        context.arc(x, y, r, 0, 2 * Math.PI, false);
+        context.closePath();
+        context.fill();
+    }
+    function screenSize () {
+        return {height: document.getElementById('header').clientHeight, width: document.getElementById('canvas').clientWidth};
+    }
+</script>
 </html>
