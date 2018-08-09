@@ -6,7 +6,6 @@ categories: #文章分类
 tags: #文章标签
 - Angular
 toc: true # 生成目录
-author: Juphy
 ---
 
 ## 输入属性（父组件->子组件）

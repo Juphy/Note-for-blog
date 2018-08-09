@@ -121,12 +121,13 @@
 </body>
 <script>
     var ballColors = [
-        '0, 153, 204, ',
-        '153, 51, 204, ',
-        '153, 204, 0, ',
-        '255, 187, 51, ',
-        '255, 136, 0, ',
-        '255, 68, 68, '
+        '255, 0, 0, ',
+        '205, 51, 255, ',
+        '0, 64, 255, ',
+        '0, 255, 255, ',
+        '153, 254, 0, ',
+        '254, 254, 0, ',
+        '255, 101, 1, '
     ];
     window.onload = function () {
         var canvas = document.getElementById('canvas');
@@ -145,7 +146,7 @@
         canvas.width = screen.width;
         canvas.height = screen.height;
         var num = parseInt(screen.width * screen.height / 100000);
-        if (num < 24) num = 24;
+        if (num < 10) num = 10;
         balls = [];
         for (var i = 0; i < num; i++) {
             var opacity = 0.06 + Math.random() * 0.16;
