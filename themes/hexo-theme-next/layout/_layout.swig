@@ -51,12 +51,11 @@
           </div>
           {% include '_partials/comments.swig' %}
         </div>
+      </div>
+    </main>
         {% if theme.sidebar.display !== 'remove' %}
           {% block sidebar %}{% endblock %}
         {% endif %}
-      </div>
-    </main>
-
     <footer id="footer" class="footer">
       <div class="footer-inner">
         {{ partial('_partials/footer.swig', {}, {cache: theme.cache.enable}) }}
