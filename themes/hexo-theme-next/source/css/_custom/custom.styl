@@ -1,4 +1,4 @@
-body{
+#main{
   background:url(https://api.yingjoy.cn/pic/?t=random&w=1920);
   background:url(https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture);
   background-repeat: no-repeat;
@@ -51,10 +51,15 @@ code {
 #header{
   position: relative;
   opacity: 0.85;
-  background: #fff;
+  background: rgba(82,168,236,.6) url(../../images/header_bg.png);
+}
+
+.header-inner{
+  padding: 36px 0 24px;
 }
 
 #canvas{
+  display: none;
   position: absolute;
   left: 0;
   top: 0;
