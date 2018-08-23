@@ -2,9 +2,8 @@
 title: nodejs获取请求参数的方式
 date: 2018-08-14 11:22:00
 categories: #文章分类
-- JavaScript
-tags:
-- nodejs
+- node
+tags:  
 - express
 toc: true # 生成目录
 ---

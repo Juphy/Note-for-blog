@@ -2,9 +2,10 @@
 title: nodejs控制异步并发
 date: 2018-08-20 15:26:00
 categories: #文章分类
-- JavaScript
+- node
 tags:
-- nodejs
+- eventproxy
+- async
 toc: true # 生成目录
 ---
 
@@ -107,6 +108,7 @@ let fetchUrl = (url, callback) => {
     setTimeout(() => {
         count--;
         callback(null, url + ' html content');
+        // 注意callback会将返回结果放在一个数组里
     }, delay);
 };
 
