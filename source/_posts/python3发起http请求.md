@@ -93,6 +93,7 @@ except urllib.error.URLError as e:
 [更多urlopen的用法](https://docs.python.org/3/library/urllib.request.html)
 
 ### request
+
 简单的请求可以使用urlopen，如果需要在请求中加入Headers等信息，就可以使用更强大的Request类来构建。
 ```
 import urllib.request
@@ -102,7 +103,9 @@ response = urllib.request.urlopen(request)
 print(response.read().decode('utf-8'))
 ```
 依然是使用urlopen发送请求，只不过参数不再是url，而是一个request类型的对象。
+
 > class urllib.request.Request(url, data=None, headers={}, origin_req_host=None, unverifiable=False, method=None)
+
 - url 这是必选，其他事可选
 - data 必须是bytes（字节流）类型，如果是字典，可以先用urllib.parse模块里的urlencode()编码。
 - headers 可以在构造请求时通过headers参数直接构造，也可以通过调用请求实例的add_header()方法添加。
