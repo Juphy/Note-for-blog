@@ -25,7 +25,7 @@ File System模块使用相对路径读写文件时，参考的就是这个路径
 ## 实例
 ```
 G://
-angular/
+- angular/
     - server/
         - main.js
         - api.js
@@ -65,19 +65,21 @@ G:\angular
 
 - 获取相邻目录下的文件
     - 在windows下`path.resolve(__dirname , '../spider/mono.js`，两种文件夹下运行结果一致；
-    - `在Linux的centos7下，两者结果不一致。angular文件夹下会报错`。
+    - 在Linux的centos7下，两者结果不一致。angular文件夹下会报错
         - 如果在angular文件夹下，使用`path.resolve(path.resolve('./') + '/spider/mono.js')`，或者`path.resolve(process.cwd() + '/spider/mono.js')`；
         - 如果在server文件夹下，使用`path.resolve(__dirname , '../spider/mono.js')`; 
 
 ## path.resolve和path.join的区别
+
 - path.join 全部给定的 path 片段连接到一起，并规范化生成的路径。如果`连接后的路径字符串`是一个长度为零的字符串，则代表返回 '.'，表示当前工作目录。不会对'/'进行解读
 - path.resolve 把一个路径或路径片段的序列解析为一个绝对路径，会将'/'当成根目录。
 
-两者都是正常解读'..''.'
+两者都是正常解读'..'和'.'。
+
 假设在G://angular；
-path.join('a', 'b', 'c')    //  'a/b/c'
-path.join('a', 'b', '..', 'c')      //  'a/c'
-path.resolve('a', 'b', '..', 'c')       //  G://a/c
-path.resolve('/a', '/b', '..', 'c')       //  G://c
+- path.join('a', 'b', 'c')    //  'a/b/c'
+- path.join('a', 'b', '..', 'c')      //  'a/c'
+- path.resolve('a', 'b', '..', 'c')       //  G://a/c
+- path.resolve('/a', '/b', '..', 'c')       //  G://c
 
 

@@ -2,7 +2,7 @@
 title: python3发起http请求
 date: 2018-08-24 11:22:00
 categories: #文章分类
-- python
+- python3
 tags:  
 - urllib
 - requests
