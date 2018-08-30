@@ -1,14 +1,15 @@
 ---
 title: nodejs发起http请求
+categories:
+  - node
+tags:
+  - fetch
+  - http
+  - request
+  - axios
+toc: true
+abbrlink: 9b757592
 date: 2018-08-23 11:22:00
-categories: #文章分类
-- node
-tags:  
-- fetch
-- http
-- request
-- axios
-toc: true # 生成目录
 ---
 
 【原文】[5 Ways to Make HTTP Requests in Node.js](https://www.twilio.com/blog/2017/08/http-requests-in-node-js.html)

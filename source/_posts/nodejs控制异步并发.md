@@ -1,12 +1,13 @@
 ---
 title: nodejs控制异步并发
-date: 2018-08-20 15:26:00
-categories: #文章分类
-- node
+categories:
+  - node
 tags:
-- eventproxy
-- async
-toc: true # 生成目录
+  - eventproxy
+  - async
+toc: true
+abbrlink: 445785db
+date: 2018-08-20 15:26:00
 ---
 
 ## eventproxy 控制并发

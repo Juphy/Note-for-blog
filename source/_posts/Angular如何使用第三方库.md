@@ -1,12 +1,13 @@
 ---
-title: Angular如何使用第三方库 #文章标题
-date: 2018-05-31 14:56:00  #写作时间
-categories: #文章分类
-- JavaScript
-tags: #文章标签
-- Angular
-- TypeScript
-toc: true # 生成目录
+title: Angular如何使用第三方库
+categories:
+  - JavaScript
+tags:
+  - Angular
+  - TypeScript
+toc: true
+abbrlink: 332631ae
+date: 2018-05-31 14:56:00
 ---
 
 ## TypeScript模块系统

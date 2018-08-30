@@ -1,12 +1,13 @@
 ---
 title: python3发起http请求
+categories:
+  - python3
+tags:
+  - urllib
+  - requests
+toc: true
+abbrlink: 664a0ac7
 date: 2018-08-24 11:22:00
-categories: #文章分类
-- python3
-tags:  
-- urllib
-- requests
-toc: true # 生成目录
 ---
 
 ## urllib

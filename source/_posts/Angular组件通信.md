@@ -1,11 +1,12 @@
 ---
-title: Angular组件通信 #文章标题
-date: 2018-06-20 14:56:00  #写作时间
-categories: #文章分类
-- JavaScript
-tags: #文章标签
-- Angular
-toc: true # 生成目录
+title: Angular组件通信
+categories:
+  - JavaScript
+tags:
+  - Angular
+toc: true
+abbrlink: ba600921
+date: 2018-06-20 14:56:00
 ---
 
 ## 输入属性（父组件->子组件）

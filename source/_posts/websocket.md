@@ -1,12 +1,13 @@
 ---
-title: WebSocket #文章标题
-date: 2018-05-10 14:56:00  #写作时间
-categories: #文章分类
-- JavaScript
-tags: #文章标签
-- Angular
-- WebSocket
-toc: true # 生成目录
+title: WebSocket
+categories:
+  - JavaScript
+tags:
+  - Angular
+  - WebSocket
+toc: true
+abbrlink: c793072c
+date: 2018-05-10 14:56:00
 ---
 
 ## WebSocket

@@ -1,11 +1,12 @@
 ---
 title: Referer
+categories:
+  - linux
+tags:
+  - referer
+toc: true
+abbrlink: 9a610f19
 date: 2018-08-23 16:22:00
-categories: #文章分类
-- linux
-tags:  
-- referer
-toc: true # 生成目录
 ---
 
 ## 什么是Referer?

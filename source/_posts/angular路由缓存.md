@@ -1,11 +1,12 @@
 ---
-title: Angular路由缓存 #文章标题
-date: 2018-06-13 14:56:00  #写作时间
-categories: #文章分类
-- JavaScript
-tags: #文章标签
-- Angular
-toc: true # 生成目录
+title: Angular路由缓存
+categories:
+  - JavaScript
+tags:
+  - Angular
+toc: true
+abbrlink: accf6790
+date: 2018-06-13 14:56:00
 ---
 
 ## angular路由缓存

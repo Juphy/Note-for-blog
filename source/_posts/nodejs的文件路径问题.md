@@ -1,11 +1,12 @@
 ---
 title: nodejs文件路径问题
+categories:
+  - node
+tags:
+  - path
+toc: true
+abbrlink: a549916c
 date: 2018-08-28 11:22:00
-categories: #文章分类
-- node
-tags:  
-- path
-toc: true # 生成目录
 ---
 
 ## process.cwd()

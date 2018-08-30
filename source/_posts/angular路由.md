@@ -1,11 +1,12 @@
 ---
-title: Angular路由 #文章标题
-date: 2018-05-24 14:56:00  #写作时间
-categories: #文章分类
-- JavaScript
-tags: #文章标签
-- Angular
-toc: true # 生成目录
+title: Angular路由
+categories:
+  - JavaScript
+tags:
+  - Angular
+toc: true
+abbrlink: 527c21d3
+date: 2018-05-24 14:56:00
 ---
 
 ## angular路由
