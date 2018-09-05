@@ -6,20 +6,24 @@ tags:
   - Angular
   - nodejs
 toc: true
+abbrlink: 1e68471e
 date: 2018-09-04 14:56:00
 ---
 
 ## 安装
+
+> 使用npm
+
+```
+npm install xlsx -S
+```
+
 > 直接使用
 
 ```
 <script lang="javascript" src="xlsx.full.min.js"></script>
 ```
-> 使用npm
 
-```
-npm instal xlsx
-```
 > 老版本浏览器
 
 ```
