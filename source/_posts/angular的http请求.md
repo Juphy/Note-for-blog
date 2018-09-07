@@ -6,6 +6,7 @@ tags:
   - Angular
   - http
 toc: true
+abbrlink: 5f94f955
 date: 2018-09-05 14:56:00
 ---
 
@@ -15,9 +16,11 @@ date: 2018-09-05 14:56:00
 ```
 https://www.juphy.cn/todos?_page=1&_limit=10
 ```
+
+
 > 创建HttpParams对象
 
-1.
+1. 直接链式创建
 ```
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -116,6 +119,8 @@ this.http.get('url').pipe(
 
 ## Http拦截器
 ### 定义拦截器
+拦截器提供了一种用于拦截、修改请求和响应的机制，类似于express中间件。
+
 ```
 import { Injectable } from "@angular/core";
 import { HttpEvent, HttpRequest, HttpHandler, HttpInterceptor } from "@angular/common/http";
@@ -123,6 +128,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 
 @Injectable()
+// 定义一个类并实现HttpInterceptor接口
 export class DefaultInterceptor implements HttpInterceptor {
   constructor(private injector: Injector){}
 
@@ -153,8 +159,8 @@ export class DefaultInterceptor implements HttpInterceptor {
     return of(event);
   }
   intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
+    req: HttpRequest<any>, // HttpRequest，即请求对象
+    next: HttpHandler // HttpHandler，该对象有一个handle()方法，该方法返回一个Observable对象。
   ): Observable<HttpEvent<any>> {
      let url= req.url; // 设置url形式，统一加上服务端前缀
      const newReq = req.clone(
@@ -174,6 +180,121 @@ export class DefaultInterceptor implements HttpInterceptor {
 }
 ```
 
+### CachingInterceptor
+拦截器实现简单的缓存控制。
+```
+定义一个Cache接口：
+import { HttpRequest, HttpResponse } from '@angular/common/http';
+
+export interface Cache {
+  get(req: HttpRequest<any>): HttpResponse<any> | null;
+  put(req: HttpRequest<any>, res: HttpResponse<any>): void;
+}
+```
+- get(req: HttpRequest): HttpResponse | null —— 用于获取 req 请求对象对应的响应对象；
+- put(req: HttpRequest, res: HttpResponse): void; —— 用于保存 req 对象对应的响应对象。
+
+在实际的场景中，一般会设置一个最大的缓存时间，即缓存的有效期，在有效期内，如果缓存存在，则会直接返回已缓存的响应对象。
+```
+import { HttpResponse } from "@angular/common/http";
+
+export const MAX_CACHE_AGE = 30000; // 单位为毫秒
+
+export interface CacheEntry {
+  url: string;
+  response: HttpResponse<any>;
+  entryTime: number;
+}
+```
+- url: string —— 被缓存的请求 URL 地址
+- response: HttpResponse —— 被缓存的响应对象
+- entryTime: number —— 响应对象被缓存的时间，用于判断缓存是否过期
+
+实现CacheService
+```
+import { Injectable } from "@angular/core";
+import { HttpRequest, HttpResponse } from "@angular/common/http";
+import { Cache } from "./cache";
+import { CacheEntry, MAX_CACHE_AGE } from "./cache.entry";
+
+@Injectable({
+  providedIn: "root"
+})
+export class CacheService implements Cache {
+  cacheMap = new Map<string, CacheEntry>();
+
+  constructor() {}
+
+  get(req: HttpRequest<any>): HttpResponse<any> | null {
+    // 判断当前请求是否已被缓存，若未缓存则返回null
+    const entry = this.cacheMap.get(req.urlWithParams);
+    if (!entry) return null;
+    // 若缓存存在，则判断缓存是否过期，若已过期则返回null。否则返回请求对应的响应对象
+    const isExpired = Date.now() - entry.entryTime > MAX_CACHE_AGE;
+    console.log(`req.urlWithParams is Expired: ${isExpired} `);
+    return isExpired ? null : entry.response;
+  }
+
+  put(req: HttpRequest<any>, res: HttpResponse<any>): void {
+    // 创建CacheEntry对象
+    const entry: CacheEntry = {
+      url: req.urlWithParams,
+      response: res,
+      entryTime: Date.now()
+    };
+    console.log(`Save entry.url response into cache`);
+    // 以请求url作为键，CacheEntry对象为值，保存到cacheMap中。并执行
+    // 清理操作，即清理已过期的缓存。
+    this.cacheMap.set(req.urlWithParams, entry);
+    this.deleteExpiredCache();
+  }
+
+  private deleteExpiredCache() {
+    this.cacheMap.forEach(entry => {
+      if (Date.now() - entry.entryTime > MAX_CACHE_AGE) {
+        this.cacheMap.delete(entry.url);
+      }
+    });
+  }
+}
+```
+实现CachingInterceptor
+```
+import { CacheService } from '../cache.service';
+const CACHABLE_URL = 'url';
+
+@Injectable()
+export class CachingInterceptor implements HttpInterceptor {
+    constructor(private cache: CacheService) {}
+
+    intercept(req: HttpRequest<any>, next: HttpHandler) {
+        // 判断当前请求是否可缓存
+        if (!this.isRequestCachable(req)) {
+           return next.handle(req);
+        }
+        // 获取请求对应的缓存对象，若存在则直接返回该请求对象对应的缓存对象
+        const cachedResponse = this.cache.get(req);
+        if (cachedResponse !== null) {
+           return of(cachedResponse);
+        }
+        // 发送请求至API站点，请求成功后保存至缓存中
+        return next.handle(req).pipe(
+           tap(event => {
+              if (event instanceof HttpResponse) {
+                this.cache.put(req, event);
+              }
+           })
+        );
+    }
+
+    // 判断当前请求是否可缓存
+    private isRequestCachable(req: HttpRequest<any>) {
+        return (req.method === 'GET') && (req.url.indexOf(CACHABLE_URL) > -1);
+    }
+}
+```
+
+
 ### 应用拦截器
 app.module.ts
 ```
@@ -190,6 +311,37 @@ export class AppModule {}
 ```
 
 ## Http进度事件
+```
+this.http.get('url', {
+    observe: 'events',
+    reportProgress: true
+}).subscribe((event: HttpEvent<any>) => {
+    switch(event.type){
+          case HttpEventType.Sent:
+            console.log("Request sent!");
+            break;
+          case HttpEventType.ResponseHeader:
+            console.log("Response header received!");
+            break;
+          case HttpEventType.DownloadProgress:
+            const kbLoaded = Math.round(event.loaded / 1024);
+            console.log(`Download in progress! ${kbLoaded}Kb loaded`);
+            break;
+          case HttpEventType.Response:
+            console.log("Done!", event.body);
+    }
+})
+```
+控制台输出：
+```
+Request sent!
+Response header received!
+Download in progress! 6Kb loaded
+Download in progress! 24Kb loaded
+Done!
+```
+
+
 ```
 this.http.get('url', {
     observe: 'events',
