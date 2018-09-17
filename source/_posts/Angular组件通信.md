@@ -109,9 +109,8 @@ export class CounterComponent {
 > [()]，Angular的双向绑定
 
 *通过修改绑定属性的方式，使用双向绑定即可，此时在子组件中只需要接收数据。*
-
 ## 模板变量
-> 通过子组件标签的#name,则name就相当于子组件component。
+> 通过子组件标签的#child,则child就相当于子组件component。
 
 parent.component.ts
 ```
@@ -223,7 +222,6 @@ change_id(){
   }
 ```
 采用参数订阅的方式subscribe()获取到一个类型为Params的属性params，并返回params里面的Id复制给本地变量homeID，这样就不会出现路径在变，但是页面里面的参数值不变的情况；
-
 ## @ViewChild 装饰器
 > 父组件获取子组件数据需要借助@ViewChild(),子组件直接引用。
 
@@ -240,12 +238,11 @@ import { ChildComponent } from './child.component';
   `,
 })
 export class AppComponent {
-  title: number = 123;
   @ViewChild(ChildComponent)
   childCmp: ChildComponent;
 
   ngAfterViewInit() {
-    this.childCmp.name = 'child-component';
+    console.log(this.childCmp.name); // "child-component"
   }
 }
 ```
@@ -262,11 +259,102 @@ import { Component, OnInit } from '@angular/core';
 export class ChildComponent {
     name: string = '';
     constructor(private appcomponent:AppComponent) {
-        this.appcomponent.title
+      this.name='child-component'
     }
 }
 ```
 ## 基于RxJS Subject
+`rxjs版本基于6需要结合rxjs-compat使用`
+message.service.ts
+```
+import {Injectable} from '@angular/core';
+import {of} from 'rxjs/observable/of';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+
+@Injectable()
+export class MessageService {
+  private subject = new Subject<any>();
+  message: any;
+
+  sendMessage(message: any) {
+    this.message = message;
+    this.subject.next(message);
+    this.subject.complete();
+  }
+
+  clearMessage() {
+    this.message = null;
+    this.subject.next();
+  }
+
+  getMessage(): Observable<any> {
+    // return this.subject.asObservable(); // 数据一直在维持，会产生变化
+    return of(this.message); // 数据值传递一次
+  }
+}
+```
+home.component.ts
+```
+import { Component } from '@angular/core';
+import { MessageService } from './message.service';
+
+@Component({
+    selector: 'exe-home',
+    template: `
+    <div>
+        <h1>Home</h1>
+        <button (click)="sendMessage()">Send Message</button>
+        <button (click)="clearMessage()">Clear Message</button>
+    </div>`
+})
+
+export class HomeComponent {
+    constructor(private messageService: MessageService) {}
+
+    sendMessage(): void {
+        this.messageService.sendMessage('Message from Home Component to App Component!');
+    }
+
+    clearMessage(): void {
+        this.messageService.clearMessage();
+    }
+}
+```
+app.component.ts
+```
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { MessageService } from './message.service';
+
+@Component({
+    selector: 'my-app',
+    template: `
+    <div>
+       <div *ngIf="message">{{message.text}}</div>
+       <exe-home></exe-home>
+    </div>
+    `
+})
+
+export class AppComponent implements OnDestroy {
+    message: any;
+    subscription: Subscription;
+
+    constructor(private messageService: MessageService) {
+        this.subscription = this.messageService.getMessage().subscribe( message => {
+                                      this.message = message;
+                                 });
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+}
+```
+
+*更多[RxJS知识以及用法](https://github.com/RxJS-CN)*
+
 `rxjs版本基于6需要结合rxjs-compat使用`
 message.service.ts
 ```

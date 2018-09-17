@@ -157,6 +157,7 @@ app-child的组件中ng-content的select属性分别对应h3和button，也就�
 
 ### 组件投影
 组件必须在带有ng-content的组件标签内，这样`ng-content`才能匹配到组件。当然这样操作会对性能有一定的影响，因为`ng-content`不会产生内容，他只是投影现有的内容，因此这些组件一开始已经被制造，投影内容的生命周期将被绑定到他被声明的地方，而不是在显示的地方。
+
 child-component
 ```
 import { Component, OnInit } from '@angular/core';
@@ -259,6 +260,7 @@ export class ParentComponent implements OnInit {
 
 ## ContentChildren
 与ContentChild类似通过Content Projection方式设置的视图中获取匹配的多个元素，返回的结果是一个QueryList集合。
+
 在parent-component中添加多个app-auth-remember：
 ```
 @Component({

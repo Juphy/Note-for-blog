@@ -104,18 +104,26 @@ got('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', {json: true})
 ## node-fetch库与window.fetch API保持一致
 ```
 const fetch = require('node-fetch');
-// plain text or html
+
+*plain text or html
+
 fetch('https://github.com/')
     .then(res => res.text())
     .then(body => console.log(body));
-// json
+
+*json
+
 fetch('https://api.github.com/users/github')
     .then(res => res.json())
     .then(json => console.log(json));
-// catch network error
+
+*catch network error
+
 fetch('http://domain.invalid/')
     .catch(err => console.error(err));
-// stream
+
+*stream
+
 fetch('https://assets-cdn.github.com/images/modules/logos_page/Octocat.png')
     .then(res => {
         return new Promise((resolve, reject) => {
@@ -132,5 +140,5 @@ fetch('https://assets-cdn.github.com/images/modules/logos_page/Octocat.png')
             });
         });
     });
-```    
+```
 [更多fetch的用法](https://www.npmjs.com/package/node-fetch)
