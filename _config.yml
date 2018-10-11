@@ -102,7 +102,7 @@ scheme: Muse
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
     type: git
-    repo: git@github.com:Juphy/Juphy.github.io.git
+    repo: https://github.com/Juphy/Juphy.github.io.git
     branch: master
 
 # Disqus Disqus插件
